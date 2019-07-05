@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DietPlans;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
@@ -35,13 +37,29 @@ namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
             Console.WriteLine($"Carbs = [{string.Join(", ", carbs)}]");
             Console.WriteLine($"Fats = [{string.Join(", ", fat)}]");
             Console.WriteLine($"Diet plan = [{string.Join(", ", dietPlans)}]");
-            Console.WriteLine(result);
+            Console.WriteLine(result+"\n");
         }
 
         public static int[] SelectMeals(int[] protein, int[] carbs, int[] fat, string[] dietPlans)
         {
             // Add your code here.
-            throw new NotImplementedException();
+            var meals = new List<Meal>();
+
+            for (int i = 0; i < protein.Length; i++)
+            {
+                meals.Add(new Meal(i, protein[i], carbs[i], fat[i]));
+            }
+
+            var mealSelector = new MealSelector(meals);
+            var mealSelections = new int[dietPlans.Length];
+            for (int i = 0; i < dietPlans.Length; i++)
+            {
+                var dietPlan = dietPlans[i];
+                var meal = mealSelector.GetPreferredMeal(dietPlan);
+
+                mealSelections[i] = meal.Id;
+            }
+            return mealSelections;
         }
     }
 }
